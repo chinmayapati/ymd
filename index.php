@@ -13,7 +13,10 @@
 
 		if( preg_match('/watch/', $url) ){
 				try {
+                    echo "<table border='0'>";
+                    echo "<tr><td style='padding: 20px;'><b>Thumbnails</b></td><td style='padding: 20px;'><b>Title</b></td><td><b>Max Quality</b></td></tr>";
 					$youtube->getVideoUrl($url , $quality);
+                    echo "</table>";
 				} catch(Exception $e){
 					echo $e->getMessage();
 				}
@@ -21,7 +24,10 @@
 		} else if( preg_match('/videos/', $url) ){
 
 				try {
-					$youtube->vChannel($url , $quality);
+                    echo "<table border='0'>";
+                    echo "<tr><td style='padding: 20px;'><b>Thumbnails</b></td><td style='padding: 20px;'><b>Title</b></td><td><b>Max Quality</b></td></tr>";
+                    $youtube->vChannel($url , $quality);
+                    echo "</table>";
 				} catch(Exception $e){
 					echo $e->getMessage();
 				}
@@ -29,7 +35,10 @@
 		} else if( preg_match('/playlist\?list/', $url) ){
 
 				try {
-					$youtube->getPlaylistVideos($url , $quality);
+                    echo "<table border='0'>";
+                    echo "<tr><td style='padding: 20px;'><b>Thumbnails</b></td><td style='padding: 20px;'><b>Title</b></td><td>Max Quality</b></td></b></tr>";
+                    $youtube->getPlaylistVideos($url , $quality);
+                    echo "</table>";
 				} catch(Exception $e){
 					echo $e->getMessage();
 				}
@@ -72,7 +81,7 @@
 <!--        </select>-->
         <select name="format">
             <option value="mp4">mp4</option>
-            <option value="3gp">3gp</button>
+            <option value="3gp">3gp</option>
         </select>
 	</div>
 

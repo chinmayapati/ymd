@@ -18,23 +18,36 @@ class Youtube{
         $videoArray = array();
     }
 
+    /* Returns the video info */
+    public function getVideoInfo($url) {
+        $data = json_decode(file_get_contents('http://www.youtube.com/oembed?url=' . $url . '&format=json'), true);
+        return $data;
+    }
+
     /* Video Links Download */
     public function getVideoUrl( $url , $format, $quality = "(Max 480p)" ){
+        $video_info = $this->getVideoInfo($url);
         $vid_id = explode('=', $url)[1];
 
         parse_str(file_get_contents('https://www.youtube.com/get_video_info?video_id='.$vid_id), $file);
         $title = $file['title'];
         $streams = explode(',', $file["url_encoded_fmt_stream_map"]);
 
+        echo "<tr>";
+
         foreach($streams as $item) {
             parse_str($item, $data);
             $data['type'] = explode(';', $data['type'])[0];
             if(stripos($data['type'], $format) !== false) {
-                echo $this->count . $title . "&nbsp;&nbsp;<a href='". $data['url']. "'>Download</a download><br />";
+                echo "<td style='padding: 10px 20px;'> <img style='height: 100px; overflow: hidden; border-radius: 5px;' src='" . $video_info['thumbnail_url'] . "' class='img-responsive' /></td>";
+                echo "<td style='padding: 10px;'> <a href =" . $data['url']. " download>" . $title . "</a></td>";
+                echo "<td style='padding: 10px;'>" . $video_info['height'] . "p</td>";
                 $this->count += 1;
                 break;
             }
         }
+
+        echo "</tr>";
 } /* End of getVideoUrl */
 
     /*  Playlist Links Download */
